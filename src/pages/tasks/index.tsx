@@ -1,6 +1,5 @@
 import {useState, useEffect}  from 'react';
 import React from 'react';
-//import axios from 'axios'
 
 import Link from 'next/link';
 import { gql } from "@apollo/client";
@@ -8,7 +7,6 @@ import client from '@/apollo-client'
 import Layout from '@/components/layout'
 import LoadingBox from '@/components/LoadingBox'
 import IndexRow from './IndexRow';
-//import ReactPaginate from 'react-paginate';
 import LibPagenate from '@/lib/LibPagenate';
 import LibCookie from '@/lib/LibCookie'
 import LibCommon from '@/lib/LibCommon'
@@ -93,7 +91,7 @@ console.log(validMember);
         fetchPolicy: "network-only"
       });
       let project = dataProject.data.project;
-  console.log(project);
+//console.log(project);
       const items_all = items;
       //  none/working/complete
       const itemsNone = items.filter(item => (item.status === 'none') );
@@ -119,18 +117,16 @@ console.log(project);
       {this.state.button_display ? (<div />): (
         <LoadingBox></LoadingBox>
       )}       
-      <div className="container mt-2 mb-4">
-        <h3>{project.name}</h3>
-        <hr className="my-1" />
+      <div className="container mt-1 mb-4 bg-white">
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-8"><h3>{project.name}</h3>
+          </div>
+          <div className="col-md-4 text-center">
             <Link href={`/tasks/create?project=${this.props.projectId}`}>
               <a><button className="btn btn-primary mt-0">Create</button>
               </a>
             </Link>
             <span className="mx-2">Invite: {project.inveiteCode}</span>
-          </div>
-          <div className="col-md-6  text-end">
           </div>
         </div>
         <hr className="my-1" />
@@ -146,7 +142,8 @@ console.log(project);
             let date = LibCommon.converDateString(item.complete);
     //console.log(item.values.title);  created_at
             return (
-              <IndexRow key={index} id={item.id} title={item.title} date={date} />
+              <IndexRow key={index} id={item.id} title={item.title} date={date}
+              status="none" />
             )
           })}      
           </div>
@@ -155,7 +152,8 @@ console.log(project);
             let date = LibCommon.converDateString(item.complete);
     //console.log(item.values.title);  created_at
             return (
-              <IndexRow key={index} id={item.id} title={item.title} date={date} />
+              <IndexRow key={index} id={item.id} title={item.title} date={date}
+              status="working" />
             )
           })}      
           </div>
@@ -164,7 +162,8 @@ console.log(project);
             let date = LibCommon.converDateString(item.complete);
     //console.log(item.values.title);  created_at
             return (
-              <IndexRow key={index} id={item.id} title={item.title} date={date} />
+              <IndexRow key={index} id={item.id} title={item.title} date={date}
+               status="complete" />
             )
           })}      
           </div>
@@ -174,9 +173,14 @@ console.log(project);
       </div>
       <style>{`
       .card_col_body{ text-align: left; width: 100%;}
-      .card_col_icon{ font-size: 1.4rem; }      
+      .card_col_icon{ font-size: 1.4rem; }
+      .task_index_row .task_card_bg_blue{ background : #E3F2FD; }      
+      .task_index_row .task_card_bg_gray{ background : #FFF3E0; }
+      .task_index_row .card-body{ padding: 0.2rem; } 
+      .task_index_row .task_title{ margin-bottom: 0.1rem; }  
+      .task_index_row .task_date_area{ }   
       `}</style>
-      {/* font-size: 2.4rem; */}
+      {/* font-size: 2.4rem;*/}
     </Layout>
     );
   }

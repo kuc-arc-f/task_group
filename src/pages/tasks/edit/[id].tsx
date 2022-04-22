@@ -79,8 +79,6 @@ console.log( "user_id=" , uid)
       const complete = document.querySelector<HTMLInputElement>('#complete');
       complete.value = date;
 //      const status = document.querySelector<HTMLInputElement>('#status');
-//      status.value = task.status;
-      //complete: task.complete,
       this.setState({
         status: task.status,
         statusItems: statusItems,
@@ -162,11 +160,27 @@ console.log(this.state);
         )
         }        
         <div className="container">
-          <Link href={`/tasks?project=${this.state.projectId}`}>
-            <a className="btn btn-outline-primary mt-2">Back</a>
-          </Link>
+          <div className="row">
+            <div className="col-md-4">
+              <Link href={`/tasks?project=${this.state.projectId}`}>
+                <a className="btn btn-outline-primary mt-2">Back</a>
+              </Link>              
+            </div>
+            <div className="col-md-4"><h3>Task - Edit</h3>
+            </div>
+            <div className="col-md-4">
+            {this.state.button_display ? (
+              <div>
+                <div className="form-group mt-2">
+                  <button className="btn btn-primary" onClick={this.handleClick}>Save
+                  </button>
+                </div>
+              </div>
+              ): ""
+            }          
+            </div>
+          </div>
           <hr className="my-1" />
-          <h3>Task - Edit</h3>
           ID : {this.props.id}
           <hr className="my-1" />
           <div className="col-md-6 form-group">
@@ -175,13 +189,12 @@ console.log(this.state);
             defaultValue={this.state.title}
              />
           </div>
+          <hr className="my-1" />
           <label>Status:</label><br />
           {this.state.statusItems.map((item ,index) => {
   //console.log(item);
             return (
               <span key={index}>
-                {/* 
-                */}
                 <input className="form-check-input mx-2" type="radio" name="status"
                  value={item} defaultChecked={this.state.status === item}
                 onChange={this.handleChangeRadio.bind(this)} 
@@ -192,12 +205,14 @@ console.log(this.state);
               </span>
             );
           })
-          }          
+          }
+          <hr className="my-1" />          
           <div className="col-md-6 form-group">
             <label>Scheduled Complete:</label>
             <input type="date" name="complete" id="complete" required={true} className="form-control"
             ></input>
-          </div>          
+          </div> 
+          <hr className="my-1" />         
           <div className="form-group">
             <label>Content:</label>
             <div className="col-sm-12">
@@ -207,21 +222,22 @@ console.log(this.state);
             </div>
           </div>          
           {this.state.button_display ? (
-          <div>
-            <div className="form-group mt-2">
-              <button className="btn btn-primary" onClick={this.handleClick}>Save
-              </button>
+            <div>
+              {/*
+              <div className="form-group mt-2">
+                <button className="btn btn-primary" onClick={this.handleClick}>Save
+                </button>
+              </div>
+              */}
+              <hr className="my-2" /> 
+              <div className="form-group">
+                <button className="btn btn-danger" onClick={this.handleClickDelete}>Delete
+                </button>
+              </div>
             </div>
-            <hr className="my-1" /> 
-            <div className="form-group">
-              <button className="btn btn-danger" onClick={this.handleClickDelete}>Delete
-              </button>
-            </div>
-          </div>
-          ): ""
-        }          
-        <hr className="my-1" />
-          
+            ): ""
+          }          
+          <hr className="my-1" />
         </div>
       </Layout>
     );

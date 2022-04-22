@@ -92,10 +92,25 @@ console.log(this.state);
           <LoadingBox></LoadingBox>
         )}
         <div className="container">
-          <Link href={`/tasks?project=${this.props.projectId}`}>
-            <a className="btn btn-outline-primary mt-2">Back</a></Link>
+          <div className="row">
+            <div className="col-md-4">
+              <Link href={`/tasks?project=${this.props.projectId}`}>
+              <a className="btn btn-outline-primary mt-2">Back</a></Link>
+            </div>
+            <div className="col-md-4"><h3>Tasks - Create</h3>
+            </div>
+            <div className="col-md-4 text-center">
+            {this.state.button_display ? (
+              <div className="form-group my-2">
+                <button className="btn btn-primary" onClick={this.handleClick}>Create
+                </button>
+              </div>                
+            ): (<div></div>)
+            }          
+            </div>
+          </div>
           <hr className="mt-2 mb-2" />
-          <h3>Tasks - Create</h3>
+          
           <div className="col-md-6 form-group">
             <label>Title:</label>
             <input type="text" name="title" id="title" className="form-control"
@@ -113,16 +128,6 @@ console.log(this.state);
                rows={10} placeholder="markdown input, please"></textarea>
             </div>
           </div>          
-          {this.state.button_display ? (
-            <div className="form-group my-2">
-              <button className="btn btn-primary" onClick={this.handleClick}>Create
-              </button>
-            </div>                
-          ): (<div></div>)
-          }          
-          <hr />
-          {/*
-          */}
         </div>
       </main>
     </Layout>

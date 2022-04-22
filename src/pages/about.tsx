@@ -7,7 +7,7 @@ export default function Home() {
     <div className="container">
       <hr />
       <h1>About</h1>
-      <p>js_front1,  about page.</p>
+      <p>task_group,  about page.</p>
     </div>
   </Layout>
   )
