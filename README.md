@@ -23,6 +23,11 @@ Next.js 12 + apollo-client ,  task_group app frontend
 https://github.com/kuc-arc-f/apollo_task
 
 ***
+### Get started
+
+https://cms-kuc-js-front1.pages.dev/pages/20220423093838
+
+***
 ### Setup
 
 * next.config.js
