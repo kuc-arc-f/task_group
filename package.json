@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@apollo/client": "^3.4.13",
+    "axios": "^0.26.1",
+    "exceljs": "^4.3.0",
     "firebase": "^9.6.9",
     "graphql": "^15.7.2",
     "marked": "^4.0.12",

@@ -107,6 +107,22 @@ console.log(validMember);
         userId: uid,  project: project, 
       })  
     }
+  }
+  async clickHandler(e: any){
+    try{
+      e.preventDefault();
+console.log("#clickHandler");
+      const data = {
+        itemsNone: this.state.itemsNone,
+        itemsWorking: this.state.itemsWorking,
+        itemsComplete: this.state.itemsComplete,
+      };
+      await LibTask.exportXlsx(data);
+    } catch (e) {
+      console.error(e);
+      alert("Error, outout");
+    }    
+
   }    
   render(){
     const data = this.state.items;
@@ -119,14 +135,17 @@ console.log(project);
       )}       
       <div className="container mt-1 mb-4 bg-white">
         <div className="row">
-          <div className="col-md-8"><h3>{project.name}</h3>
+          <div className="col-md-7"><h3>{project.name}</h3>
           </div>
-          <div className="col-md-4 text-center">
+          <div className="col-md-5 text-center">
             <Link href={`/tasks/create?project=${this.props.projectId}`}>
-              <a><button className="btn btn-primary mt-0">Create</button>
+              <a><button className="btn btn-sm btn-primary mt-0">Create</button>
               </a>
             </Link>
             <span className="mx-2">Invite: {project.inveiteCode}</span>
+            <button className="btn btn-sm btn-outline-success mx-0 mt-0"
+             onClick={(e) => this.clickHandler(e)}>Export
+            </button>            
           </div>
         </div>
         <hr className="my-1" />

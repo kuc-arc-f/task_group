@@ -2,15 +2,13 @@ import Link from 'next/link';
 //import Header from '../Layout/AppHead';
 
 const IndexRow = function(props){
-console.log(props);
+//console.log(props);
   let bg_status_color = "";
   if(props.status === 'working'){
     bg_status_color = "task_card_bg_blue";
   }else if(props.status === 'complete'){
     bg_status_color = "task_card_bg_gray";
   }
-//working
-//bg-primary
 // "task_card_box card shadow-lg mb-0 card_bg_blue"
   return(
     <div className="row justify-content-center p-1 task_index_row">
