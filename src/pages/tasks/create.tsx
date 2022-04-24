@@ -30,7 +30,7 @@ export default class TaskCreate extends Component<IProps, IState> {
       title: '', content: '', _token : '', userId: '', button_display: false
     }
     this.handleClick = this.handleClick.bind(this);
-console.log(props)
+//console.log(props)
   }
   async componentDidMount(){
     const key = process.env.COOKIE_KEY_USER_ID;
@@ -111,12 +111,12 @@ console.log(this.state);
           </div>
           <hr className="mt-2 mb-2" />
           
-          <div className="col-md-6 form-group">
+          <div className="col-md-9 form-group">
             <label>Title:</label>
             <input type="text" name="title" id="title" className="form-control"
             />
           </div>
-          <div className="col-md-6 form-group">
+          <div className="col-md-4 form-group">
             <label>Scheduled Complete:</label>
             <input type="date" name="complete" id="complete" required={true} className="form-control"
             ></input>

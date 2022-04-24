@@ -12,7 +12,7 @@ import LibGraphql from '@/lib/LibGraphql';
 //
 function Page(props) {
   const item: any = props.item
-//console.log(item)
+console.log(props)
   let date = LibCommon.converDateString(item.createdAt);
   let complete = LibCommon.converDateString(item.complete);
   let content = LibGraphql.getTagString(item.content);

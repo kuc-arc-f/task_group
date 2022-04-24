@@ -78,7 +78,6 @@ console.log( "user_id=" , uid)
 //console.log(date);
       const complete = document.querySelector<HTMLInputElement>('#complete');
       complete.value = date;
-//      const status = document.querySelector<HTMLInputElement>('#status');
       this.setState({
         status: task.status,
         statusItems: statusItems,
@@ -149,7 +148,7 @@ console.log(result);
     this.setState({status: e.target.value})
   }
   render() {
-console.log(this.state);
+//console.log(this.state);
     let content = this.state.content;
     content = LibGraphql.getTagString(content);
 //console.log(content);
@@ -166,7 +165,8 @@ console.log(this.state);
                 <a className="btn btn-outline-primary mt-2">Back</a>
               </Link>              
             </div>
-            <div className="col-md-4"><h3>Task - Edit</h3>
+            <div className="col-md-4"><h3 className="my-0">Task - Edit</h3>
+              ID : {this.props.id}
             </div>
             <div className="col-md-4">
             {this.state.button_display ? (
@@ -180,16 +180,20 @@ console.log(this.state);
             }          
             </div>
           </div>
+          {/*
           <hr className="my-1" />
           ID : {this.props.id}
+          */}
           <hr className="my-1" />
-          <div className="col-md-6 form-group">
+          <div className="col-md-9 form-group">
             <label>Title:</label>
             <input type="text" id="title" className="form-control"
             defaultValue={this.state.title}
              />
           </div>
+          {/*
           <hr className="my-1" />
+          */}
           <label>Status:</label><br />
           {this.state.statusItems.map((item ,index) => {
   //console.log(item);
@@ -207,12 +211,14 @@ console.log(this.state);
           })
           }
           <hr className="my-1" />          
-          <div className="col-md-6 form-group">
+          <div className="col-md-4 form-group">
             <label>Scheduled Complete:</label>
             <input type="date" name="complete" id="complete" required={true} className="form-control"
             ></input>
-          </div> 
+          </div>
+          {/*
           <hr className="my-1" />         
+          */} 
           <div className="form-group">
             <label>Content:</label>
             <div className="col-sm-12">

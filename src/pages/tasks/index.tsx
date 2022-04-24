@@ -58,39 +58,33 @@ console.log(uid);
     );
 console.log(validMember);
     if(validMember === false){
-//      location.href = '/projects/invite';
       location.href = `/projects/invite?project=${this.props.projectId}`;
     }else{
       const data = await client.query({
         query: gql`
         query {
-          tasks(projectId: ${this.props.projectId}) {
-            id
-            title
-            status
-            complete
-            createdAt    
-          }                        
+          tasksProject(projectId: ${this.props.projectId}) {
+            tasks {
+              id
+              title
+              status
+              complete
+              createdAt        
+            }
+            project{
+              id
+              name
+              inveiteCode
+              createdAt
+            }
+          }
         }
         `,
         fetchPolicy: "network-only"
       });
-      let items = data.data.tasks;
-      // project
-      const dataProject = await client.query({
-        query: gql`
-        query {
-          project(id: ${this.props.projectId}) {
-            id
-            name
-            inveiteCode
-            createdAt
-          }                                
-        }
-        `,
-        fetchPolicy: "network-only"
-      });
-      let project = dataProject.data.project;
+console.log(data.data.tasksProject);
+      let items = data.data.tasksProject.tasks;
+      let project = data.data.tasksProject.project;
 //console.log(project);
       const items_all = items;
       //  none/working/complete
