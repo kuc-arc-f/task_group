@@ -56,7 +56,7 @@ console.log(uid);
     const validMember = await LibTask.validProjectMember(
       Number(this.props.projectId), uid
     );
-console.log(validMember);
+//console.log(validMember);
     if(validMember === false){
       location.href = `/projects/invite?project=${this.props.projectId}`;
     }else{
@@ -82,7 +82,7 @@ console.log(validMember);
         `,
         fetchPolicy: "network-only"
       });
-console.log(data.data.tasksProject);
+//console.log(data.data.tasksProject);
       let items = data.data.tasksProject.tasks;
       let project = data.data.tasksProject.project;
 //console.log(project);
@@ -119,9 +119,9 @@ console.log("#clickHandler");
 
   }    
   render(){
-    const data = this.state.items;
+//    const data = this.state.items;
     const project = this.state.project;
-console.log(project);
+//console.log(project);
     return(
     <Layout>
       {this.state.button_display ? (<div />): (
