@@ -10,12 +10,16 @@ import LibCookie from "@/lib/LibCookie";
 import Layout from '@/components/layout'
 import LoadingBox from '@/components/LoadingBox'
 
+const statusItems = ['none', 'working', 'complete'];
+
 interface IState {
   title: string,
   content: string,
   _token: string,
   userId: string,
   button_display: boolean,
+  statusItems: any[],
+  status : string,
 }
 interface IProps {
   csrf: any,
@@ -27,7 +31,8 @@ export default class TaskCreate extends Component<IProps, IState> {
   constructor(props){
     super(props)
     this.state = {
-      title: '', content: '', _token : '', userId: '', button_display: false
+      title: '', content: '', _token : '', userId: '', button_display: false,
+      statusItems: [], status: 'none',
     }
     this.handleClick = this.handleClick.bind(this);
 //console.log(props)
@@ -42,7 +47,7 @@ console.log( "user_id=" , uid)
     }else{
   //console.log(data.data.getToken);
       this.setState({
-        userId: uid, button_display: true,
+        userId: uid, button_display: true, statusItems: statusItems,
       });    
       const dt =  moment(new Date() );
 //console.log(dt.format("YYYY-MM-DD"))
@@ -67,24 +72,25 @@ console.log( "user_id=" , uid)
         mutation:gql`
         mutation {
           addTask(projectId: ${this.props.projectId}, title: "${title.value}",
-            content: "${contentValue}", status: "none", 
+            content: "${contentValue}", status: "${this.state.status}", 
             complete: "${complete.value}", userId:"", firebaseUid:"${this.state.userId}"){
             id
-          }          
+          }
         }                    
       `
       });
 console.log(result);
-      /*
-      */
       Router.push(`/tasks?project=${this.props.projectId}`);
     } catch (error) {
       console.error(error);
       alert("Error, save item")
     }    
-  } 
+  }
+  handleChangeRadio(e){
+    this.setState({status: e.target.value})
+  }   
   render() {
-console.log(this.state);
+//console.log(this.state);
     return (
     <Layout>
       <main>
@@ -116,6 +122,23 @@ console.log(this.state);
             <input type="text" name="title" id="title" className="form-control"
             />
           </div>
+          <label>Status:</label><br />
+          {this.state.statusItems.map((item ,index) => {
+  //console.log(item);
+            return (
+              <span key={index}>
+                <input className="form-check-input mx-2" type="radio" name="status"
+                 value={item} defaultChecked={this.state.status === item}
+                onChange={this.handleChangeRadio.bind(this)} 
+                />
+                <label className="form-check-label">
+                  {item}
+                </label>
+              </span>
+            );
+          })
+          }
+          <hr className="my-1" />          
           <div className="col-md-4 form-group">
             <label>Scheduled Complete:</label>
             <input type="date" name="complete" id="complete" required={true} className="form-control"
