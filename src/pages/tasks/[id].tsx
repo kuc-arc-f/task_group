@@ -20,6 +20,8 @@ interface IState {
   userId: string,
   button_display: boolean,
   item: any,
+  complete: string,
+  createdAt: string,
 }
 interface IProps {
   id: string,
@@ -36,6 +38,7 @@ export default class Page extends React.Component<IProps, IState> {
       content: '',
       _token : '',
       userId: '', button_display: false, item: {},
+      complete: '', createdAt: '',
     }
 //console.log(props)
   }
@@ -65,9 +68,12 @@ export default class Page extends React.Component<IProps, IState> {
         });
         const item = data.data.task;    
         let content = LibGraphql.getTagString(item.content);
+        let date = LibCommon.converDateString(item.createdAt);
+        let complete = LibCommon.converDateString(item.complete);
 //console.log(item);
         this.setState({
           item : item, content: content, button_display: true,
+          complete: complete, createdAt: date,
         });
       }      
     } catch (e) {
@@ -76,9 +82,6 @@ export default class Page extends React.Component<IProps, IState> {
   }
   render(){
     const item: any = this.state.item;
-//console.log(item);
-    let date = LibCommon.converDateString(item.createdAt);
-    let complete = LibCommon.converDateString(item.complete);
 //console.log(item.content);
     const content = marked.parse(this.state.content);
     return (
@@ -90,15 +93,25 @@ export default class Page extends React.Component<IProps, IState> {
       <Head><title key="title">{item.title}</title></Head>
       <div className="container bg-light">
         <div className="hidden_print">
-          <Link href={`/tasks?project=${item.projectId}`}>
-            <a className="btn btn-outline-primary mt-2">Back</a></Link>
+          <div className="row">
+            <div className="col-md-6">
+              <Link href={`/tasks?project=${item.projectId}`}>
+                <a className="btn btn-outline-primary mt-2">Back</a>
+              </Link>
+            </div>
+            <div className="col-md-6 text-end">
+              <Link href={`/tasks/edit/${this.props.id}`}>
+                <a className="btn btn-primary mx-2 mt-2">Edit</a>
+              </Link>
+            </div>
+          </div>
         </div> 
         <div className="card shadow-sm my-2">
           <div className="card-body">
             <h1>{item.title}</h1>
             Status : <span  className="text-primary">{item.status}</span><br />
-            Scheduled : {complete}<br />
-            Create : {date}<br />
+            Scheduled : {this.state.complete}<br />
+            Create : {this.state.createdAt}<br />
             ID: {item.id}
           </div>
         </div>           
