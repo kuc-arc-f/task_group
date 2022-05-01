@@ -9,7 +9,7 @@ import client from '@/apollo-client'
 import LibCookie from "@/lib/LibCookie";
 import Layout from '@/components/layout'
 import LoadingBox from '@/components/LoadingBox'
-
+//
 const statusItems = ['none', 'working', 'complete'];
 
 interface IState {
@@ -97,7 +97,8 @@ console.log(result);
         {this.state.button_display ? (<div />): (
           <LoadingBox></LoadingBox>
         )}
-        <div className="container">
+        {/* container bg-light styles.container */}
+        <div className="container bg-light">
           <div className="row">
             <div className="col-md-4">
               <Link href={`/tasks?project=${this.props.projectId}`}>
@@ -116,36 +117,38 @@ console.log(result);
             </div>
           </div>
           <hr className="mt-2 mb-2" />
-          
+          {/* styles.label  fs-7  text-success */}
           <div className="col-md-9 form-group">
-            <label>Title:</label>
+            <label className="fw-bold ">Title:</label>
             <input type="text" name="title" id="title" className="form-control"
             />
           </div>
-          <label>Status:</label><br />
-          {this.state.statusItems.map((item ,index) => {
-  //console.log(item);
-            return (
-              <span key={index}>
-                <input className="form-check-input mx-2" type="radio" name="status"
-                 value={item} defaultChecked={this.state.status === item}
-                onChange={this.handleChangeRadio.bind(this)} 
-                />
-                <label className="form-check-label">
-                  {item}
-                </label>
-              </span>
-            );
-          })
-          }
+          <div className="mt-1">
+            <label className="fw-bold">Status:</label><br />
+            {this.state.statusItems.map((item ,index) => {
+    //console.log(item);
+              return (
+                <span key={index}>
+                  <input className="form-check-input mx-2" type="radio" name="status"
+                  value={item} defaultChecked={this.state.status === item}
+                  onChange={this.handleChangeRadio.bind(this)} 
+                  />
+                  <label className="form-check-label">
+                    {item}
+                  </label>
+                </span>
+              );
+            })
+            }
+          </div>
           <hr className="my-1" />          
-          <div className="col-md-4 form-group">
-            <label>Scheduled Complete:</label>
+          <div className="col-md-4 form-group mt-2">
+            <label className="fw-bold">Scheduled Complete:</label>
             <input type="date" name="complete" id="complete" required={true} className="form-control"
             ></input>
           </div>
-          <div className="form-group">
-            <label>Content:</label>
+          <div className="form-group mt-2">
+            <label className="fw-bold">Content:</label>
             <div className="col-sm-12">
               <textarea name="content" id="content" className="form-control"
                rows={10} placeholder="markdown input, please"></textarea>

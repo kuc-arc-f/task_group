@@ -158,7 +158,7 @@ console.log(result);
           <LoadingBox></LoadingBox>
         )
         }        
-        <div className="container">
+        <div className="container bg-light">
           <div className="row">
             <div className="col-md-4">
               <Link href={`/tasks?project=${this.state.projectId}`}>
@@ -189,7 +189,7 @@ console.log(result);
           */}
           <hr className="my-1" />
           <div className="col-md-9 form-group">
-            <label>Title:</label>
+            <label className="fw-bold">Title:</label>
             <input type="text" id="title" className="form-control"
             defaultValue={this.state.title}
              />
@@ -197,33 +197,35 @@ console.log(result);
           {/*
           <hr className="my-1" />
           */}
-          <label>Status:</label><br />
-          {this.state.statusItems.map((item ,index) => {
-  //console.log(item);
-            return (
-              <span key={index}>
-                <input className="form-check-input mx-2" type="radio" name="status"
-                 value={item} defaultChecked={this.state.status === item}
-                onChange={this.handleChangeRadio.bind(this)} 
-                />
-                <label className="form-check-label">
-                  {item}
-                </label>
-              </span>
-            );
-          })
-          }
+          <div className="mt-1">
+            <label className="fw-bold">Status:</label><br />
+            {this.state.statusItems.map((item ,index) => {
+    //console.log(item);
+              return (
+                <span key={index}>
+                  <input className="form-check-input mx-2" type="radio" name="status"
+                  value={item} defaultChecked={this.state.status === item}
+                  onChange={this.handleChangeRadio.bind(this)} 
+                  />
+                  <label className="form-check-label">
+                    {item}
+                  </label>
+                </span>
+              );
+            })
+            }
+          </div>
           <hr className="my-1" />          
-          <div className="col-md-4 form-group">
-            <label>Scheduled Complete:</label>
+          <div className="col-md-4 form-group mt-2">
+            <label className="fw-bold">Scheduled Complete:</label>
             <input type="date" name="complete" id="complete" required={true} className="form-control"
             ></input>
           </div>
           {/*
           <hr className="my-1" />         
           */} 
-          <div className="form-group">
-            <label>Content:</label>
+          <div className="form-group mt-2">
+            <label className="fw-bold">Content:</label>
             <div className="col-sm-12">
               <textarea name="content" id="content" className="form-control"
                rows={10} defaultValue={content} placeholder="markdown input, please"
