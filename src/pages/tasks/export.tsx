@@ -1,4 +1,8 @@
-import {useState, useEffect}  from 'react';
+/**
+* Export Task
+* 
+*/ 
+//import {useState, useEffect}  from 'react';
 import React from 'react';
 
 import Link from 'next/link';
@@ -6,11 +10,10 @@ import { gql } from "@apollo/client";
 import client from '@/apollo-client'
 import Layout from '@/components/layout'
 import LoadingBox from '@/components/LoadingBox'
-import IndexRow from './IndexRow';
 import LibPagenate from '@/lib/LibPagenate';
 import LibCookie from '@/lib/LibCookie'
-import LibCommon from '@/lib/LibCommon'
 import LibTask from '@/lib/LibTask'
+import LibExcel from '@/lib/LibExcel'
 
 const perPage = 100;
 interface IProps {
@@ -24,7 +27,6 @@ interface IState {
   itemsNone: any[],
   itemsWorking: any[],
   itemsComplete: any[],
-//  category: string,
   perPage: number,
   offset: number,
   pageCount: number,
@@ -34,7 +36,7 @@ interface IState {
   project: any,
 }
 //
-export default class TaskIndex extends React.Component<IProps, IState> {
+export default class TaskExport extends React.Component<IProps, IState> {
   constructor(props){
     super(props)
     this.state = {
@@ -45,6 +47,12 @@ export default class TaskIndex extends React.Component<IProps, IState> {
      };
 console.log(props);   
   }
+  /**
+  * componentDidMount
+  * @param
+  *
+  * @return
+  */   
   async componentDidMount(){
     const key = process.env.COOKIE_KEY_USER_ID;
     const uid = LibCookie.get_cookie(key);
@@ -82,7 +90,6 @@ console.log(uid);
         `,
         fetchPolicy: "network-only"
       });
-//console.log(data.data.tasksProject);
       let items = data.data.tasksProject.tasks;
       let project = data.data.tasksProject.project;
 //console.log(project);
@@ -91,7 +98,6 @@ console.log(uid);
       const itemsNone = items.filter(item => (item.status === 'none') );
       const itemsWorking = items.filter(item => (item.status === 'working') );
       const itemsComplete = items.filter(item => (item.status === 'complete') );
-  //console.log(itemsWorking);
       LibPagenate.set_per_page(perPage);
       const n = LibPagenate.getMaxPage(items.length);
       const d = LibPagenate.getPageStart(0);
@@ -102,8 +108,28 @@ console.log(uid);
       })  
     }
   }
+  /**
+  * clickHandler
+  * @param
+  *
+  * @return
+  */  
+  async clickHandler(e: any){
+    try{
+      e.preventDefault();
+console.log("#clickHandler");
+      const data = {
+        itemsNone: this.state.itemsNone,
+        itemsWorking: this.state.itemsWorking,
+        itemsComplete: this.state.itemsComplete,
+      };
+      await LibExcel.exportXlsx(data);
+    } catch (e) {
+      console.error(e);
+      alert("Error, outout");
+    }    
+  }    
   render(){
-//    const data = this.state.items;
     const project = this.state.project;
 //console.log(project);
     return(
@@ -111,63 +137,20 @@ console.log(uid);
       {this.state.button_display ? (<div />): (
         <LoadingBox></LoadingBox>
       )}       
-      <div className="container mt-1 mb-4 bg-white">
+      <div className="container mt-2 mb-4 bg-white">
         <div className="row">
-          <div className="col-md-7"><h3>{project.name}</h3>
-          </div>
-          <div className="col-md-5 text-center">
-            <Link href={`/tasks/create?project=${this.props.projectId}`}>
-              <a><button className="btn btn-sm btn-primary mt-0">Create</button>
-              </a>
-            </Link>
-            <span className="mx-2">Invite: {project.inveiteCode}</span>
-            <Link href={`/tasks/export?project=${this.props.projectId}`}>
-              <a target="_blank"><button className="btn btn-sm btn-outline-success mx-0 mt-0">Export</button>
-              </a>
-            </Link>
+          <div className="col-md-12">
+            <h3 className="my-2">Export : {project.name}</h3>
           </div>
         </div>
         <hr className="my-1" />
+          <div className="col-md-12 text-center">
+            <button className="btn btn-success my-2"
+             onClick={(e) => this.clickHandler(e)}>Export Xlsx
+            </button>            
+          </div>
+        <hr className="my-1" />
         {/* 2-col Status:*/}
-        <div className="row">
-          <div className="col-md-4 text-center">None</div>
-          <div className="col-md-4 text-center">Working</div>
-          <div className="col-md-4 text-center">Complete</div>
-        </div>        
-        <div className="row">
-          <div className="col-md-4">
-          {this.state.itemsNone.map((item: any ,index: number) => {
-            let date = LibCommon.converDateString(item.complete);
-    //console.log(item.values.title);  created_at
-            return (
-              <IndexRow key={index} id={item.id} title={item.title} date={date}
-              status="none" />
-            )
-          })}      
-          </div>
-          <div className="col-md-4">
-          {this.state.itemsWorking.map((item: any ,index: number) => {
-            let date = LibCommon.converDateString(item.complete);
-    //console.log(item.values.title);  created_at
-            return (
-              <IndexRow key={index} id={item.id} title={item.title} date={date}
-              status="working" />
-            )
-          })}      
-          </div>
-          <div className="col-md-4">
-          {this.state.itemsComplete.map((item: any ,index: number) => {
-            let date = LibCommon.converDateString(item.complete);
-    //console.log(item.values.title);  created_at
-            return (
-              <IndexRow key={index} id={item.id} title={item.title} date={date}
-               status="complete" />
-            )
-          })}      
-          </div>
-        </div>
-        {/* data */}      
-        <hr />
       </div>
       <style>{`
       .card_col_body{ text-align: left; width: 100%;}
@@ -183,6 +166,7 @@ console.log(uid);
     );
   }
 }
+//
 export const getServerSideProps = async (ctx) => {
   const id = ctx.query.project;
 console.log(id);
